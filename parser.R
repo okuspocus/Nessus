@@ -85,7 +85,7 @@ GetNumberOfVuls <- function(doc, hostnumber=1) {
   return(length(XML::xpathApply(xml_host, xpath)))
 }
 
-#' Get the 
+#' Get the the properties of a host given its order in a report
 #'
 #' @param doc 
 #' @param hostnumber 
@@ -101,7 +101,7 @@ GetHostProperties <- function(doc, hostnumber=1) {
 }
 
 
-#' Get the 
+#' Get all the IPs in a report
 #'
 #' @param doc 
 #'
@@ -114,7 +114,7 @@ GetAllIPs <- function(doc) {
   return(as.character(XML::xpathApply(doc, xpath)))
 }
 
-#' Get the 
+#' Get the open ports of a given IP in a report
 #'
 #' @param doc 
 #' @param ip
@@ -130,7 +130,7 @@ GetAllPortsByIP <- function(doc, ip) {
   return(as.character(XML::xpathApply(doc, xpath)))
 }
 
-#' Get the 
+#' Get the severities of the vulnerabilities of a given IP in a report
 #'
 #' @param doc 
 #' @param ip
@@ -146,7 +146,7 @@ GetAllSeveritiesByIP <- function(doc, ip) {
   return(as.character(XML::xpathApply(doc, xpath)))
 }
 
-#' Get the 
+#' Get the CVS Base Score of the vulnerabilities of a given IP in a report
 #'
 #' @param doc 
 #' @param ip
@@ -162,7 +162,7 @@ GetCVSBaseByIP <- function(doc, ip) {
   return(sapply(XML::xpathApply(doc, xpath), xmlValue))
 }
 
-#' Get the 
+#' Get the CWEs of a given IP in a report
 #'
 #' @param doc 
 #' @param ip
