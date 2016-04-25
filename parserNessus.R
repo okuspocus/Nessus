@@ -130,6 +130,21 @@ GetAllPortsByIP <- function(doc, ip) {
   return(as.character(XML::xpathApply(doc, xpath)))
 }
 
+#' Get the protocol of the vulnerabilities of a given IP in a report
+#'
+#' @param doc 
+#' @param ip
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+GetAllSeveritiesByIP <- function(doc, ip) {
+  xpath <- paste("//Report/ReportHost[@name='", ip, "']/ReportItem/@protocol", sep = "")
+  return(as.character(XML::xpathApply(doc, xpath)))
+}
+
 #' Get the severities of the vulnerabilities of a given IP in a report
 #'
 #' @param doc 
@@ -175,5 +190,21 @@ GetCVSBaseByIP <- function(doc, ip) {
 #' 
 GetCWEByIP <- function(doc, ip) {
   xpath <- paste("//Report/ReportHost[@name='", ip, "']/ReportItem/cwe", sep = "")
+  return(sapply(XML::xpathApply(doc, xpath), xmlValue))
+}
+
+#' Get the CVEs of a given IP in a report
+#'
+#' @param doc 
+#' @param ip
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'
+#' 
+GetCVEByIP <- function(doc, ip) {
+  xpath <- paste("//Report/ReportHost[@name='", ip, "']/ReportItem/cve", sep = "")
   return(sapply(XML::xpathApply(doc, xpath), xmlValue))
 }
