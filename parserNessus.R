@@ -1,3 +1,5 @@
+library(XML)
+
 #' Get policy preferences of the report - XML format
 #'
 #' @param doc 

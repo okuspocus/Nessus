@@ -11,9 +11,12 @@ df_global <- data.frame(col1 = as.character(),
                        col5 = as.character(),
                        col6 = as.character(),
                        col7 = as.character(),
+                       col8 = as.character(),
+                       col9 = as.character(),
                        stringsAsFactors = FALSE)
 
 for (i in IPs) {
+  vulIDCount <- 0 + as.integer(df_global$vulID[nrow(df_global)])
   xpath <- paste("//Report/ReportHost[@name='", i, "']/ReportItem", sep = "")
   data_frame_aux <- data.frame(t(sapply(XML::xpathApply(doc, xpath), unlist(XML::xmlAttrs))))
   data_frame_aux$svc_name <- NULL
