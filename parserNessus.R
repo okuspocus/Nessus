@@ -140,7 +140,7 @@ GetAllPortsByIP <- function(doc, ip) {
 #'
 #' @examples
 #' 
-GetAllSeveritiesByIP <- function(doc, ip) {
+GetAllprotocolByIP <- function(doc, ip) {
   xpath <- paste("//Report/ReportHost[@name='", ip, "']/ReportItem/@protocol", sep = "")
   return(as.character(XML::xpathApply(doc, xpath)))
 }
