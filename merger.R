@@ -13,17 +13,43 @@ df_global <- data.frame(col1 = as.character(),
                        col7 = as.character(),
                        col8 = as.character(),
                        col9 = as.character(),
+                       col9 = as.character(),
                        stringsAsFactors = FALSE)
 
-for (i in IPs) {
-  vulIDCount <- 0 + as.integer(df_global$vulID[nrow(df_global)])
-  xpath <- paste("//Report/ReportHost[@name='", i, "']/ReportItem", sep = "")
-  data_frame_aux <- data.frame(t(sapply(XML::xpathApply(doc, xpath), unlist(XML::xmlAttrs))))
-  data_frame_aux$svc_name <- NULL
-  data_frame <- as.data.frame(cbind(IP = i, data_frame_aux))
+for (ip in IPs) {
+  xpath <- paste("//ReportHost[@name='", ip, "']/ReportItem", sep = "")
+  data_frame_aux <- data.frame(t(sapply(XML::xpathApply(doc, xpath),
+                                        unlist(XML::xmlAttrs))),
+                               stringsAsFactors = FALSE) #Get all the attrs
+  data_frame_aux$svc_name <- NULL #Delete the svc_name attribute
+  data_frame <- data.frame(cbind(IP = as.character(ip), data_frame_aux), stringsAsFactors = FALSE)
+  data_frame[,"IP"] <- as.character(data_frame[,"IP"])
+  data_frame <- data.frame(cbind(data_frame, CVE = as.character("")), stringsAsFactors = FALSE)
+  data_frame[,"CVE"] <- as.character(data_frame[,"CVE"])
   
-  xpath_cve <- paste("//Report/ReportHost[@name='", i, "']/ReportItem/cve", sep = "")
-  data_frame_aux2 <- data.frame(sapply(XML::xpathApply(doc, xpath_cve), unlist(XML::xmlValue)))
+  df.cves <- data.frame(CVEs = as.character(), stringsAsFactors = FALSE)
+  for (i in 1:nrow(data_frame_aux)) {
+    port <- data_frame_aux[i, c("port")]
+    protocol <- data_frame_aux[i, c("protocol")]
+    pluginID <- data_frame_aux[i, c("pluginID")]
+    xpath <- paste("//ReportHost[@name='", ip,
+                   "']/ReportItem[@port='", port,
+                   "' and @protocol='", protocol,
+                   "' and @pluginID='", pluginID,
+                   "']/cve", sep = "")
+    df.cves <- data.frame(CVEs = sapply(XML::xpathApply(doc, xpath), unlist(XML::xmlValue)), stringsAsFactors = FALSE)
+    #tempo <- cbind(IP = ip,
+    #               port = as.character(port),
+    #               protocol = as.character(protocol),
+    #               pluginID = as.character(pluginID),
+    #               CVEs = as.vector(df.cves[['CVEs']]))
+    if (nrow(df.cves) == 0) {
+      #data_frame <- as.data.frame(cbind(data_frame[i], as.vector("")), stringsAsFactors = FALSE)
+    }
+    else {
+      data_frame[i, "CVE"] <- as.character(paste(as.character(df.cves[['CVEs']]), collapse = ", "))
+    }
+  }
   
   df_global <- as.data.frame(rbind(df_global, data_frame))
 }
