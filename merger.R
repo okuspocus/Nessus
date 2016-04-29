@@ -26,6 +26,8 @@ for (ip in IPs) {
   data_frame[,"IP"] <- as.character(data_frame[,"IP"])    #Convert the IP column to srting
   data_frame <- data.frame(cbind(data_frame, CVE = as.character("")), stringsAsFactors = FALSE)
   data_frame[,"CVE"] <- as.character(data_frame[,"CVE"])  #Convert the CVE column to string
+  data_frame <- data.frame(cbind(data_frame, CWE = as.character("")), stringsAsFactors = FALSE)
+  data_frame[,"CWE"] <- as.character(data_frame[,"CWE"])  #Convert the CWE column to string
   
   #Initialize and fill the df.cves dataframe
   df.cves <- data.frame(CVEs = as.character(), stringsAsFactors = FALSE)
