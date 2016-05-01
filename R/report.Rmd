@@ -18,7 +18,7 @@ df  <- GetGlobalDataFrame(XML::xmlParseDoc(file ="../sample-scans/Nessus_parser_
 ## Introducción
 En este documento se muestran un conjunto de métricas extraidas a partid de un report de Nessus en formato .nessus *([Nessus V2 File Format](http://static.tenable.com/documentation/nessus_v2_file_format.pdf))*.
 <br>
-**Nessus** es un programa de escaneo de vulnerabilidades desarrollado por [Tenable Network Security](http://www.tenable.com/) y actualmente se ha convertido en uno de los mas potentes y mas usados por los analistas de seguridad y administradores de sistemas.
+[Nessus](http://www.tenable.com/products/nessus-vulnerability-scanner) es un programa de escaneo de vulnerabilidades desarrollado por [Tenable Network Security](http://www.tenable.com/) y actualmente se ha convertido en uno de los mas potentes y mas usados por los analistas de seguridad y administradores de sistemas.
 
 
 <br><br>
@@ -29,14 +29,14 @@ En este documento se muestran un conjunto de métricas extraidas a partid de un 
 
 ### Como de criticas son las vulnerabilidades de nuestro sistema?
 
-El siguiente grafico y sus detalles muestran como se distribuyen las vulnerabilidades de nuestro sistema segun su CVSS
+El siguiente gráfico y sus detalles muestran como se distribuyen las vulnerabilidades de nuestro sistema según su [CVSS](https://www.first.org/cvss).
 
 ```{r echo = FALSE}
 cvssDist(df$CVSS_Base)
 ``` 
 <br>
 
-El siguiente grafico y sus detalles muestran como se distribuyen las vulnerabilidades de nuestro sistema segun la clasificación de Nessus
+El siguiente gráfico y sus detalles muestran como se distribuyen las vulnerabilidades de nuestro sistema según la clasificación de Nessus.
 
 ```{r echo = FALSE}
 severityDist(df$severity)
@@ -45,16 +45,16 @@ severityDist(df$severity)
 
 ### Que maquinas tienen un mayor numero de vulnerabilidades?
 
-El siguiente grafico y sus detalles muestran cuales de nuestras maquinas son las que recogen un mayor numero de vulnerabilidades
+El siguiente gráfico y sus detalles muestran cuales de nuestras maquinas son las que recogen un mayor numero de vulnerabilidades.
 
 ```{r echo = FALSE}
 vulnsByIp(df$IP)
-``` 
-
+```
 <br>
+
 ### Sobre que puertos tenemos un mayor numero de vulnerabilidades?
 
-El siguiente grafico y sus detalles muestran la afectacion de las vulnerabilidades segun su puerto
+El siguiente gráfico y sus detalles muestran la afectación de las vulnerabilidades de nuestro sistema según su puerto.
 
 ```{r echo = FALSE}
 portsPlot(as.character(subset(df,port != "0")$port))
@@ -62,7 +62,8 @@ portsPlot(as.character(subset(df,port != "0")$port))
 
 <br>
 
-### cuales son nuestras vulnerabilidades?
+### Cuales son nuestras vulnerabilidades?
+El siguiente gráfico y sus detalles muestra la afectación de las vulnerabilidades de nuestro sistema según su [CVE](https://cve.mitre.org/).
 
 ```{r echo = FALSE}
 res <- list()
@@ -72,14 +73,14 @@ for (cve_list in cve_subset){
         res <- append(res,cve_elem)
     }
 }
-#print(unlist(res,recursive=F))
 cvePlot(unlist(res,recursive=F))
 ```
 
 <br>
 
-### Sobre que debilidades comunes se encuentran nuestras vulnerabilidades?
+### Sobre que debilidades se encuentran nuestras vulnerabilidades?
 
+El siguiente gráfico y sus detalles muestra la afectación de las vulnerabilidades de nuestro sistema según su [CWE](https://cwe.mitre.org/).
 ```{r echo = FALSE}
 res <- list()
 cwe_subset <- strsplit(subset(df,CWE !="")$CWE,", ")
