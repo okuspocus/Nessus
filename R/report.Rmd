@@ -1,0 +1,53 @@
+---
+title: "Análisis sobre Nessus Scan Reports"
+output: html_document
+---
+#### Marc Astals, Eloi Manuel, Miquel Pérez, Daniel Salmerón
+
+***
+<br>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("plots.R")
+f  <- readRDS("~/df.rds")
+```
+
+## Introducción
+En este documento se muestran un conjunto de métricas extraidas a partid de un report de Nessus en formato .nessus *([Nessus V2 File Format](http://static.tenable.com/documentation/nessus_v2_file_format.pdf))*.
+<br>
+**Nessus** es un programa de escaneo de vulnerabilidades desarrollado por [Tenable Network Security](http://www.tenable.com/) y actualmente se ha convertido en uno de los mas potentes y mas usados por los analistas de seguridad y administradores de sistemas.
+
+
+<br><br>
+
+## Métricas
+
+<br>
+
+### Como de criticas son las vulnerabilidades de nuestro sistema?
+
+El siguiente grafico y sus detalles muestran como se distribuyen las vulnerabilidades de nuestro sistema segun su CVSS
+
+```{r echo = FALSE}
+severityDist(df$severity)
+``` 
+<br>
+
+### Sobre que puertos tenemos un mayor numero de vulnerabilidades?
+
+El siguiente grafico y sus detalles muestran la afectacion de las vulnerabilidades segun su puerto
+
+```{r echo = FALSE}
+vulnsByIp(df$IP)
+```
+<br>
+
+### Que maquinas tienen un mayor numero de vulnerabilidades?
+
+El siguiente grafico y sus detalles muestran cuales de nuestras maquinas son las que recogen un mayor numero de vulnerabilidades
+ 
+```{r echo = FALSE}
+portsPlot(as.character(subset(df,port != "0")$port))
+```
+<br>
