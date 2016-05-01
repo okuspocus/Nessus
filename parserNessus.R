@@ -213,6 +213,14 @@ GetCVEByIP <- function(doc, ip) {
   return(sapply(XML::xpathApply(doc, xpath), xmlValue))
 }
 
+#' Get the global data frame of a Nessus report
+#'
+#' @param doc 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 GetGlobalDataFrame <- function(doc) {
   IPs <- GetAllIPs(doc)
   
@@ -240,6 +248,8 @@ GetGlobalDataFrame <- function(doc) {
     data_frame[,"CVE"] <- as.character(data_frame[,"CVE"])  #Convert the CVE column to string
     data_frame <- data.frame(cbind(data_frame, CWE = as.character("")), stringsAsFactors = FALSE)
     data_frame[,"CWE"] <- as.character(data_frame[,"CWE"])  #Convert the CWE column to string
+    data_frame <- data.frame(cbind(data_frame, CVSS_Base = as.character("")), stringsAsFactors = FALSE)
+    data_frame[,"CVSS_Base"] <- as.character(data_frame[,"CVSS_Base"])  #Convert the CVSS_Base column to string
     
     #Initialize and fill the df.cves dataframe
     df.cves <- data.frame(CVEs = as.character(), stringsAsFactors = FALSE)
@@ -275,6 +285,20 @@ GetGlobalDataFrame <- function(doc) {
                             stringsAsFactors = FALSE)
       if (nrow(df.cwes) != 0) {
         data_frame[i, "CWE"] <- as.character(paste(as.character(df.cwes[['CWEs']]),
+                                                   collapse = ", "))
+      }
+      
+      xpath_cvss <- paste("//ReportHost[@name='", ip,
+                          "']/ReportItem[@port='", port,
+                          "' and @protocol='", protocol,
+                          "' and @pluginID='", pluginID,
+                          "']/cvss_base_score", sep = "")
+      
+      df.cvss <- data.frame(CVSS_Base = sapply(XML::xpathApply(doc, xpath_cvss),
+                                          unlist(XML::xmlValue)),
+                            stringsAsFactors = FALSE)
+      if (nrow(df.cvss) != 0) {
+        data_frame[i, "CVSS_Base"] <- as.character(paste(as.character(df.cvss[['CVSS_Base']]),
                                                    collapse = ", "))
       }
       
