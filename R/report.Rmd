@@ -10,7 +10,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source("plots.R")
-f  <- readRDS("~/df.rds")
+source("parserNessus.R")
+df  <- GetGlobalDataFrame(XML::xmlParseDoc(file ="../sample-scans/625.xml"))
 ```
 
 ## Introducción
@@ -28,6 +29,13 @@ En este documento se muestran un conjunto de métricas extraidas a partid de un 
 ### Como de criticas son las vulnerabilidades de nuestro sistema?
 
 El siguiente grafico y sus detalles muestran como se distribuyen las vulnerabilidades de nuestro sistema segun su CVSS
+
+```{r echo = FALSE}
+cvssDist(df$CVSS_Base)
+``` 
+<br>
+
+El siguiente grafico y sus detalles muestran como se distribuyen las vulnerabilidades de nuestro sistema segun la clasificación de Nessus
 
 ```{r echo = FALSE}
 severityDist(df$severity)
@@ -51,3 +59,12 @@ El siguiente grafico y sus detalles muestran cuales de nuestras maquinas son las
 portsPlot(as.character(subset(df,port != "0")$port))
 ```
 <br>
+
+### Sobre que debilidades comunes se encuentran nuestras vulnerabilidades?
+
+```{r echo = FALSE}
+cwePlot(subset(df,CWE !="")$CWE)
+```
+<br>
+
+
