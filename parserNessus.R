@@ -1,7 +1,5 @@
 library(XML)
 
-doc <- XML::xmlParseDoc(file = "sample-scans/625.xml")
-
 #' Get policy preferences of the report - XML format
 #'
 #' @param doc 
