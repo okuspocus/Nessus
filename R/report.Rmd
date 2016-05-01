@@ -1,0 +1,24 @@
+---
+title: "Análisis sobre Nessus Scan Reports"
+output: html_document
+---
+
+#### Marc Astals, Eloi Manuel, Miquel Pérez, Daniel Salmerón
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introducción
+
+En este documento se muestran un conjunto de metricas extraidas a partid de un report de Nessus en formato .nessus *([Nessus V2 File Format](http://static.tenable.com/documentation/nessus_v2_file_format.pdf))*
+
+## Métricas
+
+
+### Distribución de Vulnerabilidades por nivel de criticidad
+
+### Distribución de Vulnerabilidades por puerto
+
+### Distribución de Vulnerabilidades por host
+
