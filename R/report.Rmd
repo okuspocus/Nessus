@@ -11,7 +11,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 source("plots.R")
 source("parserNessus.R")
-df  <- GetGlobalDataFrame(XML::xmlParseDoc(file ="../sample-scans/625.xml"))
+library(gridExtra)
+df  <- GetGlobalDataFrame(XML::xmlParseDoc(file ="../sample-scans/Nessus_parser_okuspocus_v0o6cn.xml"))
 ```
 
 ## Introducción
@@ -42,29 +43,52 @@ severityDist(df$severity)
 ``` 
 <br>
 
+### Que maquinas tienen un mayor numero de vulnerabilidades?
+
+El siguiente grafico y sus detalles muestran cuales de nuestras maquinas son las que recogen un mayor numero de vulnerabilidades
+
+```{r echo = FALSE}
+vulnsByIp(df$IP)
+``` 
+
+<br>
 ### Sobre que puertos tenemos un mayor numero de vulnerabilidades?
 
 El siguiente grafico y sus detalles muestran la afectacion de las vulnerabilidades segun su puerto
 
 ```{r echo = FALSE}
-vulnsByIp(df$IP)
-```
-<br>
-
-### Que maquinas tienen un mayor numero de vulnerabilidades?
-
-El siguiente grafico y sus detalles muestran cuales de nuestras maquinas son las que recogen un mayor numero de vulnerabilidades
- 
-```{r echo = FALSE}
 portsPlot(as.character(subset(df,port != "0")$port))
 ```
+
+<br>
+
+### cuales son nuestras vulnerabilidades?
+
+```{r echo = FALSE}
+res <- list()
+cve_subset <- strsplit(subset(df,CVE != "")$CVE, ", ")
+for (cve_list in cve_subset){
+    for (cve_elem in cve_list){
+        res <- append(res,cve_elem)
+    }
+}
+#print(unlist(res,recursive=F))
+cvePlot(unlist(res,recursive=F))
+```
+
 <br>
 
 ### Sobre que debilidades comunes se encuentran nuestras vulnerabilidades?
 
 ```{r echo = FALSE}
-cwePlot(subset(df,CWE !="")$CWE)
+res <- list()
+cwe_subset <- strsplit(subset(df,CWE !="")$CWE,", ")
+for (cwe_list in cwe_subset){
+    for (cwe_elem in cwe_list){
+        res <- append(res,cwe_elem)
+    }
+}
+cwePlot(unlist(res,recursive=F))
 ```
-<br>
 
 

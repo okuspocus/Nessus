@@ -32,8 +32,15 @@ cvssDist <- function(input_data){
 cwePlot <- function(input_data){
   input_data <- table(input_data,dnn = NULL)
   colors <- c("firebrick1", "gold", "seagreen2", "dodgerblue3", "darkorange", "hotpink", "cadetblue2")
-  barplot(input_data, main="CWE distribution", col=colors,ylab="count", xlab = "host")
-  print(sort(input_data))
+  barplot(input_data, main="CWE distribution", col=colors,ylab="count", xlab = "CWE")
+  print(input_data)
+}
+
+cvePlot <- function(input_data){
+  input_data <- table(input_data,dnn = NULL)
+  colors <- c("firebrick1", "gold", "seagreen2", "dodgerblue3", "darkorange", "hotpink", "cadetblue2")
+  barplot(input_data, main="CVE distribution", col=colors,ylab="count", xlab = "CVE")
+  print(input_data)
 }
 
 
