@@ -5,10 +5,10 @@ Data mining class project
 The purpose of the project is to automate the process of parsing a Nessus report and improve the output
 
 Authors:
- * Daniel Salmeron
  * Marc Astals
+ * Eloi Manuel 
  * Miquel Perez
- * Eloi Manuel
+ * Daniel Salmeron
  
  
  Barcelona - 2016
